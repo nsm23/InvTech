@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      command: python manage.py runserver 0.0.0.0:8000
+      volumes:
+        - .:/app
+      ports:
+        - "8000:8000"
+      environment:
+        -DATABASE_URL=postgres://postgres:vtb@db:5432/invtechdb
+        -DJANGO_SETTINGS_MODULE-core.settings
+      depends_on:
+        - db
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: invtechdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: vtb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
+
